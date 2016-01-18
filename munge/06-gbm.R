@@ -44,5 +44,5 @@ test_relevance <- ifelse(test_relevance>3,3,test_relevance)
 test_relevance <- ifelse(test_relevance<1,1,test_relevance)
 
 submission <- data.frame(id=test$id,relevance=test_relevance)
-write_csv(submission,"gbm_submission.csv")
+write_csv(submission,"./data/gbm_submission.csv")
 print(Sys.time()-t)
