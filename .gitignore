@@ -2,3 +2,5 @@
 /data/attributes.csv
 /data/product_descriptions.csv
 .DS_Store
+.Rproj.user
+kaggle-home-depot-product-search-relevance.Rproj
