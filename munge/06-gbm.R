@@ -1,3 +1,4 @@
+library(gbm)
 library(readr)
 cat("Reading data\n")
 train <- read_csv('./data/train.csv')
@@ -37,11 +38,11 @@ test$nmatch_desc <- test_words[,3]
 rm(train_words,test_words)
 
 cat("A simple linear model on number of words and number of words that match\n")
-glm_model <- glm(relevance~nmatch_title+nmatch_desc+nwords,data=train)
-test_relevance <- predict(glm_model,test)
+gbm_model <- gbm.fit(train[,7:9],train$relevance,distribution = "gaussian",interaction.depth = 3,shrinkage=0.05,n.trees=450)
+test_relevance <- predict(gbm_model,test[,6:8],n.trees=450)
 test_relevance <- ifelse(test_relevance>3,3,test_relevance)
 test_relevance <- ifelse(test_relevance<1,1,test_relevance)
 
 submission <- data.frame(id=test$id,relevance=test_relevance)
-write_csv(submission,"./data/benchmark_submission.csv")
+write_csv(submission,"gbm_submission.csv")
 print(Sys.time()-t)
